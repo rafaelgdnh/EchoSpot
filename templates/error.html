@@ -1,0 +1,17 @@
+<!-- templates/error.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/style.css">
+    <title>Error</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<a href="/" class="logo">EchoSpot</a>
+<h1>An Error Occurred</h1>
+<p>{{ error_message }}</p>
+<a href="{{ url_for('index') }}">Back to Home</a>
+</body>
+</html>

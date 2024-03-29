@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/style.css">
+    <title>Spotify Playlist Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<a href="/" class="logo">EchoSpot</a>
+<div class="container">
+    <header>
+        <h1>Welcome to EchoSpot</h1>
+    </header>
+    <main>
+        {% if not session.token_info %}
+        <!-- Show login link if the user is not logged in -->
+        <a href="{{ url_for('login') }}" class="btn">Login with Spotify</a>
+        {% else %}
+        <!-- Show welcome message and option to create playlist if the user is logged in -->
+        <p>You are now logged in. Ready to create some awesome playlists?</p>
+        <a href="{{ url_for('generate_playlist') }}" class="btn">Create Your Playlist</a>
+        <a href="{{ url_for('logout') }}" class="bbtn">Logout</a>
+        {% endif %}
+    </main>
+</div>
+</body>
+</html>

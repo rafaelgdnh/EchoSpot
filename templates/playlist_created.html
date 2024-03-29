@@ -1,0 +1,22 @@
+<!-- templates/playlist_created.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playlist Created</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<a href="/" class="logo">EchoSpot</a>
+<div class="container">
+    <h1>Your playlist has been successfully created!</h1>
+    <p>Click the button below to open it in Spotify.</p>
+    <a href="{{ playlist_url }}" target="_blank" class="btn">Open Playlist in Spotify</a>
+    <br>
+    <!-- Button to return to the home page -->
+    <a href="{{ url_for('index') }}" class="btn">Return to Home Page</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/style.css">
+    <title>Create Playlist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<a href="/" class="logo">EchoSpot</a>
+<div class="container">
+    <h1>Create Your Spotify Playlist</h1>
+    <form action="{{ url_for('generate_playlist') }}" method="post">
+        <div class="step" id="step1">
+            <div>
+                <label for="playlist_name">Playlist Name:</label>
+                <input type="text" id="playlist_name" name="playlist_name" required>
+                <div id="playlistNameWarning" style="display:none; color: red;">Please enter a playlist name.</div>
+                <button type="button" onclick="nextStep()" class="btn">Next</button>
+            </div>
+        </div>
+        <div class="step" id="step2" style="display:none;">
+            <div>
+                <label for="limit">Number of Tracks:</label>
+                <input type="number" id="limit" name="limit" min="1" max="50" required>
+                <div id="trackCountWarning" style="display:none; color: red;">Please enter a number of tracks.</div>
+                <button type="button" onclick="prevStep()" class="bbtn">Back</button>
+                <button type="button" onclick="nextStep()" class="btn">Next</button>
+            </div>
+        </div>
+        <div class="step" id="step3" style="display:none;">
+            <div>
+                <label for="seed_genres">Select a Genre:</label>
+                <select id="seed_genres" name="seed_genres">
+                    <option value="random">Random</option>
+                    {% for genre in top_genres %}
+                    <option value="{{ genre }}">{{ genre }}</option>
+                    {% endfor %}
+                </select>
+                <button type="button" onclick="prevStep()" class="bbtn">Back</button>
+                <button type="button" onclick="nextStep()" class="btn">Next</button>
+            </div>
+        </div>
+        <div class="step" id="step4" style="display:none;">
+            <div id="danceability-container" class="slider-container">
+                <input type="checkbox" id="enable_danceability" class="slider-checkbox" checked>
+                <label for="target_danceability">Danceability (0.0 to 1.0):</label>
+                <input type="range" id="target_danceability" name="target_danceability" min="0" max="1" step="0.01" value="0.5">
+                <output for="target_danceability" id="danceability-output">0.5</output>
+                <div>
+                    <button type="button" onclick="prevStep()" class="bbtn">Back</button>
+                    <button type="button" onclick="nextStep()" class="btn">Next</button>
+                </div>
+            </div>
+        </div>
+        <div class="step" id="step5" style="display:none;">
+            <div id="energy-container" class="slider-container">
+                <input type="checkbox" id="enable_energy" class="slider-checkbox" checked>
+                <label for="target_energy">Energy (0.0 to 1.0):</label>
+                <input type="range" id="target_energy" name="target_energy" min="0" max="1" step="0.01" value="0.5">
+                <output for="target_energy" id="energy-output">0.5</output>
+                <div>
+                    <button type="button" onclick="prevStep()" class="bbtn">Back</button>
+                    <button type="button" onclick="nextStep()" class="btn">Next</button>
+                </div>
+            </div>
+        </div>
+        <div class="step" id="step6" style="display:none;">
+            <div id="acousticness-container" class="slider-container">
+                <input type="checkbox" id="enable_acousticness" class="slider-checkbox" checked>
+                <label for="target_acousticness">Acousticness (0.0 to 1.0):</label>
+                <input type="range" id="target_acousticness" name="target_acousticness" min="0" max="1" step="0.01" value="0.5">
+                <output for="target_acousticness" id="acousticness-output">0.5</output>
+                <div>
+                    <button type="button" onclick="prevStep()" class="bbtn">Back</button>
+                    <button type="button" onclick="nextStep()" class="btn">Next</button>
+                </div>
+            </div>
+        </div>
+        <div class="step" id="step7" style="display:none;">
+            <div id="speechiness-container" class="slider-container">
+                <input type="checkbox" id="enable_speechiness" class="slider-checkbox" checked>
+                <label for="target_speechiness">Speechiness (0.0 to 1.0):</label>
+                <input type="range" id="target_speechiness" name="target_speechiness" min="0" max="1" step="0.01" value="0.5">
+                <output for="target_speechiness" id="speechiness-output">0.5</output>
+                <div>
+                    <button type="button" onclick="prevStep()" class="bbtn">Back</button>
+                    <button type="button" onclick="nextStep()" class="btn">Next</button>
+                </div>
+            </div>
+        </div>
+        <div class="step" id="step8" style="display:none;">
+            <div id="liveness-container" class="slider-container">
+                <input type="checkbox" id="enable_liveness" class="slider-liveness" checked>
+                <label for="target_liveness">Liveness (0.0 to 1.0):</label>
+                <input type="range" id="target_liveness" name="target_liveness" min="0" max="1" step="0.01" value="0.5">
+                <output for="target_liveness" id="liveness-output">0.5</output>
+                <div>
+                    <button type="button" onclick="prevStep()" class="bbtn">Back</button>
+                    <button type="button" onclick="nextStep()" class="btn">Next</button>
+                </div>
+            </div>
+        </div>
+        <div class="step" id="step9" style="display:none;">
+            <div id="loudness-container" class="slider-container">
+                <input type="checkbox" id="enable_loudness" class="slider-loudness" checked>
+                <label for="target_loudness">Loudness (-60 to 0 dB):</label>
+                <input type="range" id="target_loudness" name="target_loudness" min="-60" max="0" step="1" value="-30">
+                <output for="target_loudness" id="loudness-output">-30 dB</output>
+                <div>
+                    <button type="button" onclick="prevStep()" class="bbtn">Back</button>
+                    <button type="button" onclick="nextStep()" class="btn">Next</button>
+                </div>
+            </div>
+        </div>
+        <!-- Include additional fields for other criteria -->
+
+        <!-- Final step for generating the playlist -->
+        <div class="step" id="step10" style="display:none;">
+            <h2 id="summary-heading">Summary of Your Selections</h2>
+            <ul id="selectionSummary">
+                <!-- Summary items will be added here dynamically -->
+            </ul>
+            <div>
+                <button type="button" onclick="prevStep()" class="bbtn">Back</button>
+                <button type="submit" class="btn">Generate Playlist</button>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="static/js/script.js"></script>
+</body>
+</html>

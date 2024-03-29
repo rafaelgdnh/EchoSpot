@@ -1,0 +1,138 @@
+body {
+    background-color: #A7C7E7; /* Pastel Blue background */
+    color: #333; /* Dark text for contrast */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+}
+
+.header, .footer {
+    background-color: #B8E0D2; /* Pastel Green */
+    color: #333;
+    padding: 20px;
+    text-align: center;
+}
+
+.button {
+    background-color: #F3B0C3; /* Pastel Pink */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;
+    background: #D6BCFA; /* Pastel Purple */
+    outline: none;
+    opacity: 0.75;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #FCE4B6; /* Pastel Yellow */
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #FCE4B6;
+    cursor: pointer;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background-color: #A7C7E7; /* Example background color */
+}
+
+.container {
+    width: 90%;
+    max-width: 600px;
+    padding: 20px;
+    background-color: #fff; /* For contrast */
+    border-radius: 10px; /* Optional: for rounded corners */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: for subtle shadow */
+}
+
+.container p {
+    margin-bottom: 20px; /* Adjust as needed */
+}
+
+.header, .footer {
+    margin-bottom: 20px;
+}
+
+.slider-container {
+    margin-bottom: 20px;
+}
+
+.button {
+    margin-top: 20px;
+}
+
+.btn {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #1DB954;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer; /* Makes it clear the element is clickable */
+}
+
+.btn:hover {
+    background-color: #1a8e42; /* Darker green on hover */
+}
+
+.bbtn {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #DB3236;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer; /* Makes it clear the element is clickable */
+}
+
+.bbtn:hover {
+    background-color: #A32D26
+}
+
+.logo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #000;
+    text-decoration: none;
+    position: absolute; /* Position it absolutely relative to its closest positioned ancestor */
+    top: 0; /* Adjust if you have a padding or margin at the top of your page */
+    margin: 20px; /* Adjust or remove based on your design needs */
+}
