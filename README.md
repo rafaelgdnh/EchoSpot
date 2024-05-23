@@ -1,6 +1,6 @@
 # EchoSpot
 
-EchoSpot is a Python-based project for analyzing and visualizing musical features using Principal Component Analysis (PCA). This repository contains code for loading and preprocessing data, applying PCA, and generating insightful visualizations, such as heatmaps and scatter plots.
+EchoSpot is a Python-based project for analyzing and visualizing musical features. This repository contains code for loading and preprocessing data and generating insightful visualizations. Code for the website, EchoSpot, is also included.
 
 ## Table of Contents
 
@@ -14,7 +14,7 @@ EchoSpot is a Python-based project for analyzing and visualizing musical feature
 
 - **Data Preprocessing**: Clean and prepare the musical dataset.
 - **PCA Analysis**: Apply PCA to reduce the dimensionality of the dataset.
-- **Visualization**: Generate heatmaps and scatter plots to visualize PCA loadings and explained variance.
+- **Visualization**: Generate plots such as heatmaps and KDEs to visualize data.
 
 ## Installation
 
@@ -80,4 +80,10 @@ Contributions are welcome! Please fork the repository and submit a pull request 
 3. Make your changes and commit them: `git commit -m 'Add some feature'`
 4. Push to the branch: `git push origin feature-branch`
 5. Submit a pull request.
+
+
+If you'd like to read more about the analysis, check out the PDF in the repo!
+
+
+
    
