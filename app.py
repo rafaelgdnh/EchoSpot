@@ -7,6 +7,7 @@ from spotipy.oauth2 import SpotifyOAuth
 from playlistcreator import create_playlist_with_filters
 import random
 
+
 # Load environment variables
 load_dotenv()
 
@@ -34,8 +35,9 @@ def index():
 def login():
     # Get Spotify auth URL and redirect user to Spotify login page
     auth_url = sp_oauth.get_authorize_url()
+    auth_url_with_show_dialog = auth_url + "&show_dialog=true"
 
-    return redirect(auth_url)
+    return redirect(auth_url_with_show_dialog)
 
 @app.route('/callback')
 def callback():
@@ -81,50 +83,24 @@ def generate_playlist():
         playlist_name = request.form.get('playlist_name', "My Spotify Playlist")
         limit = request.form.get('limit', 10, type=int)
         seed_genres = request.form.get('seed_genres')  # Retrieve the selected genre
-        target_danceability = request.form.get('target_danceability', 0.5, type=float)
-        target_energy = request.form.get('target_energy', 0.5, type=float)
-        target_acousticness = request.form.get('target_acousticness', 0.5, type=float)
-        target_speechiness = request.form.get('target_speechiness', 0.5, type=float)
-        target_liveness = request.form.get('target_liveness', 0.5, type=float)
-        target_loudness = request.form.get('target_loudness', -30, type=float)
 
         if seed_genres == 'random':
             # Randomly selects a genre from the list
             seed_genres = random.choice(top_genres)
 
-        # For each feature, check if checkbox was checked
+        # Collect feature values if their respective checkbox is checked
         features = {}
-        if 'enable_danceability' in request.form:
-            features['target_danceability'] = float(request.form.get('target_danceability'))
-
-        if 'enable_energy' in request.form:
-            features['target_energy'] = float(request.form.get('target_energy'))
-
-        if 'enable_acousticness' in request.form:
-            features['target_acousticness'] = float(request.form.get('target_acousticness'))
-
-        if 'enable_speechiness' in request.form:
-            features['target_speechiness'] = float(request.form.get('target_speechiness'))
-
-        if 'enable_liveness' in request.form:
-            features['target_liveness'] = float(request.form.get('target_liveness'))
-
-        if 'enable_loudness' in request.form:
-            features['target_loudness'] = float(request.form.get('target_loudness'))
-
+        for feature_name in ['danceability', 'energy', 'acousticness', 'speechiness', 'liveness', 'loudness']:
+            checkbox_name = f"enable_{feature_name}"
+            if checkbox_name in request.form:  # This checks if the checkbox was checked
+                feature_value = request.form.get(f"target_{feature_name}", type=float)
+                features[f"target_{feature_name}"] = feature_value
 
         try:
             sp = get_spotify_client()
-            playlist_url = create_playlist_with_filters(sp, name=playlist_name,
-                                                        limit=limit,
-                                                        target_danceability=target_danceability,
-                                                        target_energy=target_energy,
-                                                        target_acousticness=target_acousticness,
-                                                        target_speechiness=target_speechiness,
-                                                        target_liveness=target_liveness,
-                                                        target_loudness=target_loudness, seed_genres=seed_genres,
-                                                        public=True,
-                                                        **features)
+            # Passing features dictionary directly
+            playlist_url = create_playlist_with_filters(sp, name=playlist_name, limit=limit, seed_genres=seed_genres,
+                                                        public=True, **features)
             session['playlist_url'] = playlist_url  # Stores playlist URL in the session
             return redirect(url_for('playlist_created'))  # Redirects to confirmation page
         except Exception as e:

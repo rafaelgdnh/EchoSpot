@@ -68,14 +68,14 @@ body, html {
     align-items: center;
     text-align: center;
     font-family: Arial, sans-serif;
-    background-color: #A7C7E7; /* Example background color */
+    background-color: #121212; /* Example background color */
 }
 
 .container {
     width: 90%;
     max-width: 600px;
-    padding: 20px;
-    background-color: #fff; /* For contrast */
+    padding: 40px;
+    background-color: #f5f5dc; /* For contrast */
     border-radius: 10px; /* Optional: for rounded corners */
     box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: for subtle shadow */
 }
@@ -128,11 +128,66 @@ body, html {
 
 .logo {
     font-family: 'Montserrat', sans-serif;
-    font-size: 32px;
+    font-size: 36px;
     font-weight: 700;
-    color: #000;
+    color: white;
     text-decoration: none;
     position: absolute; /* Position it absolutely relative to its closest positioned ancestor */
     top: 0; /* Adjust if you have a padding or margin at the top of your page */
     margin: 20px; /* Adjust or remove based on your design needs */
+    margin-bottom: 20px; /* Adds space below the logo */
 }
+
+.info-hover {
+    position: absolute;
+    bottom: -25px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.info-hover .info-box {
+    visibility: hidden;
+    width: 280px;
+    background-color: #f9f9f9;
+    color: #000;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    transform: translateX(-50%);
+    left: 50%;
+    margin-left: -140px;  /* Use half of the width set above */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.info-hover:hover .info-box {
+    visibility: visible;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+@media (max-width: 768px) {
+    .container, .header, .footer {
+        padding: 15px;
+        margin: 10px;
+    }
+
+    .button, .btn, .bbtn {
+        padding: 8px 16px; /* Slightly smaller buttons on mobile */
+    }
+
+    body {
+        text-align: center; /* Ensures that text aligns nicely on smaller devices */
+    }
+}
+
+:focus {
+    outline: 3px solid #1DB954; /* Ensures focus is clear, aiding keyboard navigation */
+}
+

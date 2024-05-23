@@ -3,8 +3,8 @@
 Dep. Variable:             popularity   R-squared:                       0.023
 Model:                            OLS   Adj. R-squared:                  0.022
 Method:                 Least Squares   F-statistic:                     263.4
-Date:                Sun, 11 Feb 2024   Prob (F-statistic):               0.00
-Time:                        12:49:33   Log-Likelihood:            -1.6046e+05
+Date:                Wed, 17 Apr 2024   Prob (F-statistic):               0.00
+Time:                        10:45:54   Log-Likelihood:            -1.6046e+05
 No. Observations:              114000   AIC:                         3.209e+05
 Df Residuals:                  113989   BIC:                         3.210e+05
 Df Model:                          10                                         

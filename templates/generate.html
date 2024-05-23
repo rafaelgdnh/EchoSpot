@@ -17,7 +17,9 @@
                 <label for="playlist_name">Playlist Name:</label>
                 <input type="text" id="playlist_name" name="playlist_name" required>
                 <div id="playlistNameWarning" style="display:none; color: red;">Please enter a playlist name.</div>
-                <button type="button" onclick="nextStep()" class="btn">Next</button>
+                <div class="clearfix">
+                    <button type="button" onclick="nextStep()" class="btn">Next</button>
+                </div>
             </div>
         </div>
         <div class="step" id="step2" style="display:none;">
@@ -25,8 +27,10 @@
                 <label for="limit">Number of Tracks:</label>
                 <input type="number" id="limit" name="limit" min="1" max="50" required>
                 <div id="trackCountWarning" style="display:none; color: red;">Please enter a number of tracks.</div>
-                <button type="button" onclick="prevStep()" class="bbtn">Back</button>
-                <button type="button" onclick="nextStep()" class="btn">Next</button>
+                <div class="clearfix">
+                    <button type="button" onclick="prevStep()" class="bbtn">Back</button>
+                    <button type="button" onclick="nextStep()" class="btn">Next</button>
+                </div>
             </div>
         </div>
         <div class="step" id="step3" style="display:none;">
@@ -38,17 +42,23 @@
                     <option value="{{ genre }}">{{ genre }}</option>
                     {% endfor %}
                 </select>
-                <button type="button" onclick="prevStep()" class="bbtn">Back</button>
-                <button type="button" onclick="nextStep()" class="btn">Next</button>
+                <div class="clearfix">
+                    <button type="button" onclick="prevStep()" class="bbtn">Back</button>
+                    <button type="button" onclick="nextStep()" class="btn">Next</button>
+                </div>
             </div>
         </div>
         <div class="step" id="step4" style="display:none;">
             <div id="danceability-container" class="slider-container">
                 <input type="checkbox" id="enable_danceability" class="slider-checkbox" checked>
-                <label for="target_danceability">Danceability (0.0 to 1.0):</label>
+                <label for="target_danceability">Danceability (0.0 to 1.0):
+                    <span class="info-hover">i
+                        <span class="info-box">Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable.</span>
+                    </span>
+                </label>
                 <input type="range" id="target_danceability" name="target_danceability" min="0" max="1" step="0.01" value="0.5">
                 <output for="target_danceability" id="danceability-output">0.5</output>
-                <div>
+                <div class="clearfix">
                     <button type="button" onclick="prevStep()" class="bbtn">Back</button>
                     <button type="button" onclick="nextStep()" class="btn">Next</button>
                 </div>
@@ -57,10 +67,14 @@
         <div class="step" id="step5" style="display:none;">
             <div id="energy-container" class="slider-container">
                 <input type="checkbox" id="enable_energy" class="slider-checkbox" checked>
-                <label for="target_energy">Energy (0.0 to 1.0):</label>
+                <label for="target_energy">Energy (0.0 to 1.0):
+                    <span class="info-hover">i
+                        <span class="info-box">Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. For example, death metal has high energy, while a Bach prelude scores low on the scale. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy.</span>
+                    </span>
+                </label>
                 <input type="range" id="target_energy" name="target_energy" min="0" max="1" step="0.01" value="0.5">
                 <output for="target_energy" id="energy-output">0.5</output>
-                <div>
+                <div class="clearfix">
                     <button type="button" onclick="prevStep()" class="bbtn">Back</button>
                     <button type="button" onclick="nextStep()" class="btn">Next</button>
                 </div>
@@ -69,10 +83,14 @@
         <div class="step" id="step6" style="display:none;">
             <div id="acousticness-container" class="slider-container">
                 <input type="checkbox" id="enable_acousticness" class="slider-checkbox" checked>
-                <label for="target_acousticness">Acousticness (0.0 to 1.0):</label>
+                <label for="target_acousticness">Acousticness (0.0 to 1.0):
+                    <span class="info-hover">i
+                        <span class="info-box">A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.</span>
+                    </span>
+                </label>
                 <input type="range" id="target_acousticness" name="target_acousticness" min="0" max="1" step="0.01" value="0.5">
                 <output for="target_acousticness" id="acousticness-output">0.5</output>
-                <div>
+                <div class="clearfix">
                     <button type="button" onclick="prevStep()" class="bbtn">Back</button>
                     <button type="button" onclick="nextStep()" class="btn">Next</button>
                 </div>
@@ -81,10 +99,14 @@
         <div class="step" id="step7" style="display:none;">
             <div id="speechiness-container" class="slider-container">
                 <input type="checkbox" id="enable_speechiness" class="slider-checkbox" checked>
-                <label for="target_speechiness">Speechiness (0.0 to 1.0):</label>
+                <label for="target_speechiness">Speechiness (0.0 to 1.0):
+                    <span class="info-hover">i
+                        <span class="info-box">Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g. talk show, audio book, poetry), the closer to 1.0 the attribute value. Values above 0.66 describe tracks that are probably made entirely of spoken words. Values between 0.33 and 0.66 describe tracks that may contain both music and speech, either in sections or layered, including such cases as rap music. Values below 0.33 most likely represent music and other non-speech-like tracks.</span>
+                    </span>
+                </label>
                 <input type="range" id="target_speechiness" name="target_speechiness" min="0" max="1" step="0.01" value="0.5">
                 <output for="target_speechiness" id="speechiness-output">0.5</output>
-                <div>
+                <div class="clearfix">
                     <button type="button" onclick="prevStep()" class="bbtn">Back</button>
                     <button type="button" onclick="nextStep()" class="btn">Next</button>
                 </div>
@@ -93,10 +115,14 @@
         <div class="step" id="step8" style="display:none;">
             <div id="liveness-container" class="slider-container">
                 <input type="checkbox" id="enable_liveness" class="slider-liveness" checked>
-                <label for="target_liveness">Liveness (0.0 to 1.0):</label>
+                <label for="target_liveness">Liveness (0.0 to 1.0):
+                    <span class="info-hover">i
+                        <span class="info-box">Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live. A value above 0.8 provides strong likelihood that the track is live.</span>
+                    </span>
+                </label>
                 <input type="range" id="target_liveness" name="target_liveness" min="0" max="1" step="0.01" value="0.5">
                 <output for="target_liveness" id="liveness-output">0.5</output>
-                <div>
+                <div class="clearfix">
                     <button type="button" onclick="prevStep()" class="bbtn">Back</button>
                     <button type="button" onclick="nextStep()" class="btn">Next</button>
                 </div>
@@ -105,10 +131,14 @@
         <div class="step" id="step9" style="display:none;">
             <div id="loudness-container" class="slider-container">
                 <input type="checkbox" id="enable_loudness" class="slider-loudness" checked>
-                <label for="target_loudness">Loudness (-60 to 0 dB):</label>
+                <label for="target_loudness">Loudness (-60 to 0 dB):
+                    <span class="info-hover">i
+                        <span class="info-box">The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db.</span>
+                    </span>
+                </label>
                 <input type="range" id="target_loudness" name="target_loudness" min="-60" max="0" step="1" value="-30">
                 <output for="target_loudness" id="loudness-output">-30 dB</output>
-                <div>
+                <div class="clearfix">
                     <button type="button" onclick="prevStep()" class="bbtn">Back</button>
                     <button type="button" onclick="nextStep()" class="btn">Next</button>
                 </div>

@@ -7,14 +7,20 @@ function setupSlider(checkboxId, sliderId, outputId) {
         output.style.visibility = this.checked ? 'visible' : 'hidden';
     });
 
+    // Update the slider input listener to format the output
     document.getElementById(sliderId).addEventListener('input', function(e) {
-        document.getElementById(outputId).value = e.target.value;
+        document.getElementById(outputId).value = parseFloat(e.target.value).toFixed(2);
     });
 
-    // On page load
+    // Initialize slider and output visibility based on checkbox state at page load
     var checkbox = document.getElementById(checkboxId);
-    document.getElementById(sliderId).disabled = !checkbox.checked;
-    document.getElementById(outputId).style.visibility = checkbox.checked ? 'visible' : 'hidden';
+    var slider = document.getElementById(sliderId);
+    var output = document.getElementById(outputId);
+    slider.disabled = !checkbox.checked;
+    output.style.visibility = checkbox.checked ? 'visible' : 'hidden';
+
+    // Initialize the output value formatted to two decimal places
+    output.value = parseFloat(slider.value).toFixed(2);
 }
 
 let currentStep = 1;
@@ -34,31 +40,33 @@ function updateSummary() {
     const summaryList = document.getElementById('selectionSummary');
     summaryList.innerHTML = ''; // Clear existing summary items
 
-    // Example: Add playlist name and track count to summary
     const playlistName = document.getElementById('playlist_name').value;
     const trackCount = document.getElementById('limit').value;
     const genre = document.getElementById('seed_genres').value;
-    const danceabilityVal = document.getElementById('target_danceability').value;
-    const energyVal = document.getElementById('target_energy').value;
-    const acousticnessVal = document.getElementById('target_acousticness').value;
-    const speechinessVal = document.getElementById('target_speechiness').value;
-    const livenessVal = document.getElementById('target_liveness').value;
-    const loudnessVal = document.getElementById('target_loudness').value;
-    // Assuming 'random' is the value for a random genre selection
     const genreText = genre === 'random' ? 'Random Genre' : genre;
 
     summaryList.innerHTML += `<li>Playlist Name: ${playlistName}</li>`;
     summaryList.innerHTML += `<li>Number of Tracks: ${trackCount}</li>`;
     summaryList.innerHTML += `<li>Genre: ${genreText}</li>`;
-    summaryList.innerHTML += `<li>Danceability: ${danceabilityVal}</li>`;
-    summaryList.innerHTML += `<li>Energy: ${energyVal}</li>`;
-    summaryList.innerHTML += `<li>Acousticness: ${acousticnessVal}</li>`;
-    summaryList.innerHTML += `<li>Speechiness: ${speechinessVal}</li>`;
-    summaryList.innerHTML += `<li>Liveness: ${livenessVal}</li>`;
-    summaryList.innerHTML += `<li>Loudness: ${loudnessVal}</li>`;
 
-    // Add more features here as needed
+    // Add only enabled features to the summary
+    addFeatureToSummary('enable_danceability', 'target_danceability', 'Danceability');
+    addFeatureToSummary('enable_energy', 'target_energy', 'Energy');
+    addFeatureToSummary('enable_acousticness', 'target_acousticness', 'Acousticness');
+    addFeatureToSummary('enable_speechiness', 'target_speechiness', 'Speechiness');
+    addFeatureToSummary('enable_liveness', 'target_liveness', 'Liveness');
+    addFeatureToSummary('enable_loudness', 'target_loudness', 'Loudness');
 }
+
+function addFeatureToSummary(checkboxId, sliderId, featureName) {
+    const checkbox = document.getElementById(checkboxId);
+    if (checkbox && checkbox.checked) {
+        const value = document.getElementById(sliderId).value;
+        const summaryList = document.getElementById('selectionSummary');
+        summaryList.innerHTML += `<li>${featureName}: ${value}</li>`;
+    }
+}
+
 
 // Adjusted nextStep function to include input validation
 function nextStep() {

@@ -5,9 +5,9 @@ import ast
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+from scipy.stats import gaussian_kde
 
-
-df = pd.read_csv('DataFrames/top500songs.csv')
+df = pd.read_csv('../DataFrames/top500songsnew.csv')
 
 # DATA PRE-PROCESSING ##
 
@@ -16,7 +16,8 @@ df = df.drop(df.columns[0], axis=1)
 
 # Normalization for numeric features of DataFrame
 scaler = StandardScaler()
-columns_to_scale = ['energy', 'loudness', 'speechiness', 'valence', 'liveness', 'tempo', 'danceability', 'acousticness', 'duration_ms', 'instrumentalness', 'popularity']
+columns_to_scale = ['energy', 'loudness', 'speechiness', 'valence', 'liveness', 'tempo', 'danceability',
+                    'acousticness', 'duration_ms', 'instrumentalness', 'popularity']
 df[columns_to_scale] = scaler.fit_transform(df[columns_to_scale])
 
 
@@ -53,7 +54,7 @@ plt.xlabel('Market Count')
 plt.ylabel('Density')
 
 # Saves plot as .png file
-plt.savefig('plotsTop/market_count_distribution.png', dpi=300)
+plt.savefig('../plotsTop/market_count_distribution.png', dpi=300)
 plt.show()
 
 
@@ -68,47 +69,84 @@ print(df['market_count'])
 # Exploratory Data Analysis (EDA) ##
 
 # Descriptive statistics
-print(df.describe())
+df.describe().to_csv("../DataFrames/A_summary_statistics.csv", float_format='%.2f')
 
 
 # Defines list of numeric features
-num_features = ['energy', 'loudness', 'speechiness', 'valence', 'liveness', 'tempo', 'danceability', 'acousticness', 'duration_ms', 'instrumentalness', 'popularity']
+num_features = ['energy', 'loudness', 'speechiness', 'valence', 'liveness', 'tempo', 'danceability',
+                'acousticness', 'duration_ms', 'instrumentalness', 'popularity']
 
-# Color palette for plotsTop
-palette = sns.color_palette("hsv", len(num_features))
+colors = [
+    '#1f77b4',  # muted blue
+    '#ff7f0e',  # safety orange
+    '#2ca02c',  # cooked asparagus green
+    '#d62728',  # brick red
+    '#9467bd',  # muted purple
+    '#8c564b',  # chestnut brown
+    '#e377c2',  # raspberry yogurt pink
+    '#7f7f7f',  # middle gray
+    '#bcbd22',  # curry yellow-green
+    '#17becf',  # blue-teal
+    '#39FF14'   # neon green
+]
 
 # Initializes matplotlib figure for KDE plot
 plt.figure(figsize=(14, 8))
 
 # Loops through features and plots KDE for each
 for i, feature in enumerate(num_features):
-    sns.kdeplot(df[feature], label=feature)  # Add a label for the legend
+    sns.kdeplot(df[feature], label=feature, color=colors[i])  # Add a label for the legend
 
 # Adds title, labels and legend to plot
 plt.title('KDE of Song Features', fontsize=18)
 plt.xlabel('Feature Values', fontsize=14)
 plt.legend(title='Features')
 
-# Saves figure
-plt.savefig('plotsTop/feature_distributions_kde.png', dpi=300)
-plt.close()
+for feature in num_features:
+    data = df[feature]
 
+    # Instantiate and fit the KDE model
+    kde = gaussian_kde(data)
+
+    # Compute the range of data (min and max)
+    min_x = data.min()
+    max_x = data.max()
+
+    # Find the mode (peak of KDE)
+    x = np.linspace(min_x, max_x, 1000)  # Increase 1000 for more precision
+    y = kde(x)
+    peak_y = y.max()
+    mode_x = x[y.argmax()]
+
+    print(f"{feature.capitalize()}:")
+    print(f"  Min x: {min_x:.2f}")
+    print(f"  Max x: {max_x:.2f}")
+    print(f"  Peak y: {peak_y:.2f} at x (mode): {mode_x:.2f}\n")
+
+# Saves figure
+plt.savefig('../plotsTop/feature_distributions_kde.png', dpi=300)
+plt.close()
 
 # Initializes matplotlib figure for boxplot
 plt.figure(figsize=(20, 15))
 
-# Loops through features and creates a boxplot for each one
 for i, feature in enumerate(num_features):
-    plt.subplot(1, len(num_features), i+1)
-    sns.boxplot(y=df[feature], color=palette[i])
-    plt.xlabel(feature, fontsize=14, fontweight='bold')  # Increase font size and make it bold
-    plt.ylabel('')  # Remove the y-axis labels
+    plt.subplot(1, len(num_features), i + 1)
+    # Create the boxplot with increased median line properties
+    bp = sns.boxplot(y=df[feature], color=colors[i])
+    # Increase median line thickness and color
+    for median_line in bp.findobj(plt.Line2D):
+        if median_line.get_linestyle() == '-':  # Check if the line is the median line
+            median_line.set_color('black')  # Change median line color to black
+            median_line.set_linewidth(3)  # Increase median line thickness
+
+    plt.xlabel(feature, fontsize=14, fontweight='bold')
+    plt.ylabel('')
 
 # Adds title to plot
 plt.suptitle('Boxplot Distribution for Various Song Features', fontsize=20, fontweight='bold')
-
 plt.tight_layout()
-plt.savefig('plotsTop/feature_distributions_boxplot.png', dpi=300)
+plt.savefig('../plotsTop/feature_distributions_boxplot.png', dpi=300)
 plt.close()
 
 
@@ -118,33 +156,34 @@ plt.figure(figsize=(20, 15))
 # Loops through features and creates a histogram for each one
 for i, feature in enumerate(num_features):
     plt.subplot(1, len(num_features), i+1)
-    sns.histplot(df[feature], color=palette[i], kde=False, bins=15)
+    sns.histplot(df[feature], color=colors[i], kde=False, bins=15)
     plt.xlabel(feature, fontsize=14, fontweight='bold')  # Increase font size and make it bold
 
 # Adds title to the plot
 plt.suptitle('Histogram Distribution for Various Song Features', fontsize=20, fontweight='bold')
 
 plt.tight_layout()
-plt.savefig('plotsTop/feature_distributions_histogram.png', dpi=300)
+plt.savefig('../plotsTop/feature_distributions_histogram.png', dpi=300)
 plt.close()
 
 
 # Drops 'track_id' column from DataFrame
 df_without_id = df.drop(columns=['track_id'], errors='ignore')
 
-# Calculates correlation matrix for the DataFrame without 'track_id'
+# Calculates correlation matrix for DataFrame without 'track_id'
 corr_without_id = df_without_id.corr()
 
 # Initializes matplotlib figure for the heatmap
 plt.figure(figsize=(12, 10))
 
+# Creates mask for the upper triangle
+mask = np.triu(np.ones_like(corr_without_id, dtype=bool))
+
 # Creates a heatmap with a title
-sns.heatmap(corr_without_id, annot=True, fmt=".2f", cmap='coolwarm', square=True)
+sns.heatmap(corr_without_id, annot=True, fmt=".2f", cmap='coolwarm', mask=mask, square=True)
 plt.title('Correlation Matrix of Song Features', fontsize=18)
-
-plt.savefig('plotsTop/correlation_matrix_heatmap.png', dpi=300)
+plt.savefig('../plotsTop/correlation_matrix_heatmap.png', dpi=300)
 plt.close()
-
 
 # Converts market_dict to a list of (country, count) tuples and sorts by count
 market_counts = sorted(market_dict.items(), key=lambda item: item[1], reverse=True)
@@ -156,7 +195,7 @@ bottom_5_countries = market_counts[-5:]
 # Combines top 5 and bottom 5 for a plot
 combined_countries = top_5_countries + bottom_5_countries
 
-# Separates the country codes and counts for plotting
+# Separates country codes and counts for plotting
 countries, counts = zip(*combined_countries)
 
 # Creates horizontal bar chart
@@ -173,37 +212,37 @@ plt.title('Top 5 and Bottom 5 Countries by Market Count')
 for index, value in enumerate(counts):
     plt.text(value, index, str(value))
 
-plt.savefig('plotsTop/market_count_bar_chart.png', dpi=300)
+plt.savefig('../plotsTop/market_count_bar_chart.png', dpi=300)
 plt.close()
 
 
 # Extracting features for PCA
 x = df.loc[:, num_features].values
 
-# Standardizing the features
+# Standardizes features
 x = StandardScaler().fit_transform(x)
 
 # PCA set to 6 principal components
 pca = PCA(n_components=6)
 principalComponents = pca.fit_transform(x)
 
-# Create a DataFrame with the principal components
+# Creates DataFrame with principal components
 pca_df = pd.DataFrame(data=principalComponents, columns=['Principal Component 1', 'Principal Component 2',
                                                          "Principal Component 3", 'Principal Component 4',
                                                          "Principal Component 5", 'Principal Component 6'])
 
 print(f"Explained variance by component: {pca.explained_variance_ratio_}")
 
-# Calculates the PCA loadings (i.e., the weights) for each component
+# Calculates PCA loadings for each component
 pca_loadings = pca.components_
 
-# Creates a DataFrame with the loadings and the names of the original variables
+# Creates DataFrame with the loadings and the names of original variables
 pca_loadings_df = pd.DataFrame(data=pca_loadings,
                                columns=num_features,
                                index=[f'Principal Component {i+1}' for i in range(pca_loadings.shape[0])])
 
 # Writes DataFrame to a .csv file
-pca_loadings_df.to_csv('DataFrames/loadings.csv')
+pca_loadings_df.to_csv('../DataFrames/loadings.csv')
 
 # Sets figure size
 plt.figure(figsize=(14, 10))
@@ -211,12 +250,8 @@ sns.heatmap(pca_loadings_df, cmap='viridis', annot=True, cbar_kws={"shrink": .82
 
 plt.title('PCA Component Loadings', fontsize=16)
 plt.xlabel('Features', fontsize=14)
-plt.xticks(rotation=45, ha="right")  # Rotate feature names for better readability
-plt.yticks(fontsize=10)  # Adjust as needed
-
+plt.xticks(rotation=45, ha="right")
+plt.yticks(fontsize=10)
 plt.tight_layout()  # Adjust layout
-plt.savefig('plotsTop/loadings_heatmap.png', dpi=300)
+plt.savefig('../plotsTop/loadings_heatmap.png', dpi=300)
 plt.close()
-
-
-

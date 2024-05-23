@@ -20,8 +20,8 @@
         {% else %}
         <!-- Show welcome message and option to create playlist if the user is logged in -->
         <p>You are now logged in. Ready to create some awesome playlists?</p>
-        <a href="{{ url_for('generate_playlist') }}" class="btn">Create Your Playlist</a>
         <a href="{{ url_for('logout') }}" class="bbtn">Logout</a>
+        <a href="{{ url_for('generate_playlist') }}" class="btn">Create Your Playlist</a>
         {% endif %}
     </main>
 </div>

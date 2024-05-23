@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
 
-df = pd.read_csv('DataFrames/dataset.csv')
+df = pd.read_csv('../DataFrames/dataset.csv')
 
 # DATA PRE-PROCESSING ##
 
@@ -14,7 +14,6 @@ df = df.drop(df.columns[0], axis=1)
 scaler = StandardScaler()
 columns_to_scale = ['energy', 'loudness', 'speechiness', 'valence', 'liveness', 'tempo', 'danceability', 'acousticness', 'duration_ms', 'instrumentalness', 'popularity']
 df[columns_to_scale] = scaler.fit_transform(df[columns_to_scale])
-
 
 # List of numeric features aside from 'popularity' feature
 num_features_no_pop = ['energy', 'loudness', 'speechiness', 'valence', 'liveness', 'tempo', 'danceability', 'acousticness', 'duration_ms', 'instrumentalness']
@@ -38,7 +37,5 @@ summary = results.summary()
 print(summary)
 
 # Exports summary to a .txt
-with open('EDA/regression_summary.txt', 'w') as f:
+with open('../EDA/regression_summary.txt', 'w') as f:
     f.write(summary.as_text())
-
-

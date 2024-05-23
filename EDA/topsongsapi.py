@@ -16,7 +16,7 @@ client_credentials_manager = SpotifyClientCredentials(client_id=client_id, clien
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 sp.trace = False
 
-playlist_uri = 'spotify:playlist:1RTENWq73MEx1Pop40ZZ5S'
+playlist_uri = 'spotify:playlist:0JiVp7Z0pYKI8diUV6HJyQ'
 
 # Function to handle pagination and fetch all tracks from playlists
 def get_playlist_tracks(playlist_id):
@@ -60,7 +60,7 @@ for track in tracks:
 
 print(df)
 
-df.to_csv('/Users/rafaelgodinho/DataspellProjects/EchoSpot/top500songs.csv')
+df.to_csv('/Users/rafaelgodinho/DataspellProjects/EchoSpot/top500songsnew.csv')
 
 
 
